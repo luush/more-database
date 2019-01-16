@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lszjaf.dagger.moredatabase.mapper.PostMapper">
+  <resultMap id="BaseResultMap" type="org.lszjaf.dagger.moredatabase.bean.Post">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="financial_product_id" jdbcType="VARCHAR" property="financialProductId" />
+    <result column="operation_type" jdbcType="INTEGER" property="operationType" />
+    <result column="operation_sub_type" jdbcType="INTEGER" property="operationSubType" />
+    <result column="client_type" jdbcType="INTEGER" property="clientType" />
+    <result column="customer_type" jdbcType="INTEGER" property="customerType" />
+    <result column="front_id" jdbcType="BIGINT" property="frontId" />
+  </resultMap>
+
+  <insert id="insert" parameterType="org.lszjaf.dagger.moredatabase.bean.Post">
+    insert into risk_product (id, channel_id, financial_product_id, 
+      operation_type, operation_sub_type, client_type, 
+      customer_type, front_id)
+    values (#{id,jdbcType=BIGINT}, #{channelId,jdbcType=VARCHAR}, #{financialProductId,jdbcType=VARCHAR}, 
+      #{operationType,jdbcType=INTEGER}, #{operationSubType,jdbcType=INTEGER}, #{clientType,jdbcType=INTEGER}, 
+      #{customerType,jdbcType=INTEGER}, #{frontId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertByRP" parameterType="org.lszjaf.dagger.moredatabase.bean.Post">
+    insert into risk_product (id, channel_id, financial_product_id,
+    operation_type, operation_sub_type, client_type,
+    customer_type, front_id)
+    values (#{id,jdbcType=BIGINT}, #{channelId,jdbcType=VARCHAR}, #{financialProductId,jdbcType=VARCHAR},
+    #{operationType,jdbcType=INTEGER}, #{operationSubType,jdbcType=INTEGER}, #{clientType,jdbcType=INTEGER},
+    #{customerType,jdbcType=INTEGER}, #{frontId,jdbcType=BIGINT})
+  </insert>
+  <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT
+    id, channel_id, financial_product_id,
+      operation_type, operation_sub_type, client_type,
+      customer_type, front_id
+      from risk_product
+      where front_id=#{frontId,jdbcType=VARCHAR}
+      LIMIT 1
+
+  </select>
+
+  <select id="selectCountByFrontId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    SELECT
+    count(*)
+    from risk_product
+    where front_id=#{frontId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.Long">
+    delete from risk_product
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <update id="updateById" parameterType="org.lszjaf.dagger.moredatabase.bean.Post">
+    update risk_product
+    set
+      channel_id = #{channelId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
